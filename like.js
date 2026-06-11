@@ -47,24 +47,24 @@
   const cards = FESTIVAL_DATA.recommended.map(rec => {
     const card = document.createElement('div');
     card.className = 'reveal-card';
+    const coverBg = rec.cover ? `url('${rec.cover}')` : rec.coverGradient;
     card.innerHTML = `
-      <div class="cover" style="background-image:${rec.coverGradient}">
-        <span class="corner tl"></span>
-        <span class="corner br"></span>
-      </div>
+      <div class="cover" style="background-image:${coverBg}"></div>
       <div class="info">
         <div class="genre">${rec.genre}</div>
         <div class="name">${rec.name}</div>
         <div class="meta-row"><span>STAGE</span><span>${rec.stage}</span></div>
         <div class="meta-row"><span>TIME</span><span>${rec.time}</span></div>
       </div>
+      <span class="corner tl"></span>
+      <span class="corner br"></span>
     `;
     revealLayer.appendChild(card);
 
-    // position card centered above its bar position
+    // position card centered on its bar position, cover overlapping the soundwave
     const leftPct = rec.barPos * 100;
     card.style.left = `calc(${leftPct}% - 100px)`;
-    card.style.bottom = '46%';
+    card.style.top = 'calc(50% - 90px)';
 
     return { rec, card, active: false };
   });

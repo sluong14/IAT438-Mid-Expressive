@@ -72,6 +72,7 @@ const FESTIVAL_DATA = {
       time: '17:00',
       barPos: 0.27,
       freq: 55,
+      cover: 'parrish.png',
       coverGradient: 'linear-gradient(135deg,#5b6d7a 0%, #2a323a 60%, #10141a 100%)'
     },
     {
@@ -81,6 +82,7 @@ const FESTIVAL_DATA = {
       time: '16:00',
       barPos: 0.78,
       freq: 96,
+      cover: 'clara.png',
       coverGradient: 'linear-gradient(135deg,#7a8b94 0%, #3a4750 55%, #14181c 100%)'
     },
   ]

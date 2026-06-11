@@ -53,6 +53,29 @@
   let activeBars = new Set();
   let activeCluster = null;
 
+  /* ---------- fake track-duration scrub bar ---------- */
+  const TRACK_DURATION = 180; // seconds, looping
+  let progressTimer = null;
+  let elapsed = 0;
+
+  function startProgress() {
+    elapsed = 0;
+    if (progressTimer) clearInterval(progressTimer);
+    progressTimer = setInterval(() => {
+      elapsed = (elapsed + 0.25) % TRACK_DURATION;
+      const pct = (elapsed / TRACK_DURATION) * 100;
+      const fill = document.getElementById('rdbFill');
+      const dot  = document.getElementById('rdbDot');
+      if (fill) fill.style.width = pct + '%';
+      if (dot)  dot.style.left = pct + '%';
+    }, 250);
+  }
+
+  function stopProgress() {
+    if (progressTimer) clearInterval(progressTimer);
+    progressTimer = null;
+  }
+
   /* ---------- swipe highlight ---------- */
 
   fieldWrap.addEventListener('mousemove', (e) => {
@@ -133,28 +156,11 @@
     artistRows.innerHTML = '';
     cluster.artists.forEach(artist => {
       const tr = document.createElement('tr');
-      if (artist.playingNow) tr.classList.add('playing');
-
-      tr.innerHTML = `
-        <td>
-          <span class="artist-name">
-            <span class="play-btn"></span>
-            ${artist.playingNow ? '<span class="now-dot"></span>' : ''}
-            ${artist.name}
-          </span>
-        </td>
-        <td class="stage-cell ${artist.playingNow ? 'now' : ''}">${artist.stage}</td>
-        <td>${artist.time}</td>
-      `;
+      tr._artist = artist;
+      tr.innerHTML = renderRowContent(artist);
 
       tr.addEventListener('click', () => toggleArtist(tr, artist, cluster));
       artistRows.appendChild(tr);
-
-      if (artist.playingNow) {
-        SoundEngine.play(artist.freq);
-        nowText.textContent = `NOW PLAYING — ${artist.name}`;
-        nowBadge.classList.add('show');
-      }
     });
 
     sidebar.classList.add('open');
@@ -163,35 +169,56 @@
     logoMark.classList.add('dimmed');
   }
 
+  function renderRowContent(artist) {
+    return `
+        <td>
+          <span class="artist-name">
+            <span class="play-btn"></span>
+            ${artist.name}
+          </span>
+        </td>
+        <td class="stage-cell">${artist.stage}</td>
+        <td>${artist.time}</td>
+      `;
+  }
+
+  function renderDurationRow() {
+    return `
+        <td colspan="3">
+          <div class="row-duration-bar">
+            <span class="rdb-handle"></span>
+            <div class="rdb-track">
+              <div class="rdb-fill" id="rdbFill"></div>
+              <span class="rdb-dot" id="rdbDot"></span>
+            </div>
+          </div>
+        </td>
+      `;
+  }
+
   function toggleArtist(tr, artist, cluster) {
     const wasPlaying = tr.classList.contains('playing');
 
-    // clear all playing rows
+    // restore any other playing row back to normal
     artistRows.querySelectorAll('tr.playing').forEach(row => {
-      row.classList.remove('playing');
-      const dot = row.querySelector('.now-dot');
-      if (dot) dot.remove();
-      row.querySelector('.stage-cell').classList.remove('now');
+      row.classList.remove('playing', 'playing-row');
+      row.innerHTML = renderRowContent(row._artist);
     });
 
     if (wasPlaying) {
       SoundEngine.stop();
       nowBadge.classList.remove('show');
+      stopProgress();
       return;
     }
 
-    tr.classList.add('playing');
-    const nameSpan = tr.querySelector('.artist-name');
-    if (!nameSpan.querySelector('.now-dot')) {
-      const dot = document.createElement('span');
-      dot.className = 'now-dot';
-      nameSpan.insertBefore(dot, nameSpan.childNodes[1]);
-    }
-    tr.querySelector('.stage-cell').classList.add('now');
+    tr.classList.add('playing', 'playing-row');
+    tr.innerHTML = renderDurationRow();
 
     SoundEngine.play(artist.freq);
     nowText.textContent = `NOW PLAYING — ${artist.name}`;
     nowBadge.classList.add('show');
+    startProgress();
   }
 
   function closeSidebar() {
