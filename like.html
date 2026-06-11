@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSFB — You Might Also Like</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  body{ background:var(--charcoal); }
+</style>
+</head>
+<body>
+
+  <nav class="nav dark">
+    <div class="logo">SSFB</div>
+    <div class="links">
+      <a href="index.html">Soundfield</a>
+      <a href="#">Schedule</a>
+      <a href="#">Artists</a>
+      <a href="#">Venue</a>
+    </div>
+    <div class="meta">NSDM Wharf / Amsterdam</div>
+  </nav>
+
+  <div class="field-wrap" id="fieldWrap">
+    <h1 class="like-title">YOU MIGHT ALSO LIKE</h1>
+    <div class="bar-field dark" id="barField"></div>
+    <div class="swipe-line" id="swipeLine"></div>
+    <div class="swipe-hint" id="swipeHint">[ SWIPE ]</div>
+
+    <!-- reveal cards injected per recommended artist -->
+    <div id="revealLayer"></div>
+  </div>
+
+  <div class="now-playing-badge" id="nowBadge">
+    <span class="now-dot"></span>
+    <span id="nowText">NOW PLAYING</span>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="audio.js"></script>
+  <script src="like.js"></script>
+</body>
+</html>
