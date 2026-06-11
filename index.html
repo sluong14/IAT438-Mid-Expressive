@@ -2951,8 +2951,21 @@
 
   <audio id="audioEl" loop></audio>
 
+  <button class="mute-btn" id="muteBtn" aria-label="Mute background audio" aria-pressed="false">
+    <svg class="icon-unmuted" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 9V15H8L13 20V4L8 9H4Z" fill="currentColor"/>
+      <path d="M16.5 8C18 9.6 18 14.4 16.5 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M19 5.5C21.5 8.2 21.5 15.8 19 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <svg class="icon-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 9V15H8L13 20V4L8 9H4Z" fill="currentColor"/>
+      <path d="M16 9L21 14M21 9L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
   <script src="data.js"></script>
   <script src="audio.js"></script>
+  <script src="bgaudio.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -167,6 +167,8 @@
     overlay.classList.add('show');
     tooltip.classList.remove('show');
     logoMark.classList.add('dimmed');
+
+    if (window.BGAudio) window.BGAudio.suspend();
   }
 
   function renderRowContent(artist) {
@@ -225,6 +227,8 @@
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
     logoMark.classList.remove('dimmed');
+
+    if (window.BGAudio) window.BGAudio.resume();
   }
 
   backBtn.addEventListener('click', closeSidebar);

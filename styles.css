@@ -185,15 +185,6 @@ svg.bar-field{
   box-shadow:0 0 10px rgba(58,160,240,0.55);
   transform:scaleY(1.06) scaleX(1.4);
 }
-.bar-field.dark{
-  inset:auto 0 auto 0;
-  top:50%;
-  height:160px;
-  transform:translateY(-50%);
-  align-items:center;
-  gap:4px;
-  z-index:2;
-}
 .bar-field.dark .bar{
   background:var(--cream-dim);
 }
@@ -430,6 +421,21 @@ svg.bar-field{
 .now-playing-badge .now-dot{ margin:0; }
 .now-playing-badge.on-light{ color:var(--text-charcoal); }
 
+/* ---------------- MUTE BUTTON ---------------- */
+.mute-btn{
+  position:fixed; right:36px; bottom:28px; z-index:80;
+  width:44px; height:44px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--charcoal); color:var(--text-cream);
+  border:1px solid var(--line-dark);
+  cursor:pointer;
+  transition: background-color .2s ease, opacity .2s ease;
+}
+.mute-btn:hover{ background:var(--charcoal-2); }
+.mute-btn .icon-muted{ display:none; }
+.mute-btn.muted .icon-unmuted{ display:none; }
+.mute-btn.muted .icon-muted{ display:block; }
+
 /* ---------------- IN-ROW DURATION / SCRUB BAR ---------------- */
 /* Replaces a row's content while that artist is playing, breaking
    out to the sidebar's full width (cancelling the table cell padding). */
@@ -445,12 +451,12 @@ svg.bar-field{
   display:flex; align-items:center;
 }
 .row-duration-bar .rdb-handle{
-  width:26px; height:26px; background:var(--charcoal);
-  margin-left:64px; margin-right:24px; flex-shrink:0;
+  width:15px; height:15px; background:var(--charcoal);
+  margin-left:70px; margin-right:24px; flex-shrink:0;
 }
 .row-duration-bar .rdb-track{
-  position:relative; flex:0 1 60%; height:2px; background:#bdbdb4;
-  margin-right:36px;
+  position:relative; flex:1; height:2px; background:#bdbdb4;
+  margin-right:12%;
 }
 .row-duration-bar .rdb-fill{
   position:absolute; left:0; top:0; height:100%; width:0%;
@@ -460,4 +466,15 @@ svg.bar-field{
   position:absolute; top:50%; left:0%; width:14px; height:14px;
   border-radius:50%; background:var(--charcoal);
   transform:translate(-50%,-50%);
+}
+
+/* like page soundwave: smaller band, vertically centered, spaced bars */
+.bar-field.dark{
+  inset:auto 0 auto 0;
+  top:50%;
+  height:160px;
+  transform:translateY(-50%);
+  align-items:center;
+  gap:4px;
+  z-index:2;
 }
